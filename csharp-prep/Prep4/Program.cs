@@ -7,9 +7,8 @@ class Program
     {
         Console.WriteLine("Hello Prep 4 World!");
         int num;
-        string number;
-        List<int> numbers;
-        numbers = new List<int>();
+        string number; 
+        List<int> numbers = new List<int>();
         Console.WriteLine("Enter a number. Enter 0 when finished: ");
         
         do
@@ -37,7 +36,7 @@ class Program
         }
 
         double average = (double)total / numbers.Count;
-        
+
         Console.WriteLine($"The biggest number is {max_number}. ");
         Console.WriteLine($"The Sum of the numbers is {total}. ");
         Console.WriteLine($"The averge is {average}. ");
