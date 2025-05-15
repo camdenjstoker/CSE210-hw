@@ -2,20 +2,20 @@ using System;
 
 public class Entry
 {
-   public string Date;
-   public string Prompt;
-   public string Response;
+   public string _Date;
+   public string _Prompt;
+   public string _Response;
 
    public Entry(string date, string prompt, string response)
    {
-    Date = date;
-    Prompt = prompt;
-    Response = response;
+    _Date = date;
+    _Prompt = prompt;
+    _Response = response;
    }
 
    public override string ToString()
    {
-    return $"{Date} - {Prompt}\n{Response}\n";
+    return $"{_Date} - {_Prompt}\n{_Response}\n";
    }
 
 }

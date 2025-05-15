@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public class PromptGenerator
 {
-    private List<string> prompts;
-    private Random random;
+    private List<string> _prompts;
+    private Random _random;
 
     public PromptGenerator()
     {
-        prompts = new List<string>()
+        _prompts = new List<string>()
         {
             "What is one miracle you saw today? ",
             "If you could do something different today, what would it be? ",
@@ -16,12 +16,12 @@ public class PromptGenerator
             "What is the funniest thing that happened today? ",
             "How was your day and why? "
         };
-        random = new Random();
+        _random = new Random();
     }
 
     public string GetRandomPrompt()
     {
-        int index = random.Next(prompts.Count);
-        return prompts[index];
+        int index = _random.Next(_prompts.Count);
+        return _prompts[index];
     }
 }

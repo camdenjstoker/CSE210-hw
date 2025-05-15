@@ -4,15 +4,15 @@ using System.IO;
 
 public class Journal
 {
-    private List<Entry> entries = new List<Entry>();
+    private List<Entry> _entries = new List<Entry>();
 
     public void AddEntry(Entry entry)
     {
-        entries.Add(entry);
+        _entries.Add(entry);
     }
     public void DisplayEntries()
     {
-        foreach (Entry entry in entries)
+        foreach (Entry entry in _entries)
         {
             Console.WriteLine(entry);
         }
@@ -21,9 +21,9 @@ public class Journal
     {
         using (StreamWriter writer = new StreamWriter(filename))
         {
-            foreach (Entry entry in entries)
+            foreach (Entry entry in _entries)
             {
-                writer.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Response}");
+                writer.WriteLine($"{entry._Date}|{entry._Prompt}|{entry._Response}");
             }
         }
         Console.WriteLine("Journal saved. ");
@@ -32,7 +32,7 @@ public class Journal
     {
         if (File.Exists(filename))
         {
-            entries.Clear();
+            _entries.Clear();
 
             string[] lines = File.ReadAllLines(filename);
             foreach (string line in lines)
@@ -41,15 +41,15 @@ public class Journal
                 if (parts.Length == 3)
                 {
                     Entry entry = new Entry(parts[0], parts[1], parts[2]);
-                    entries.Add(entry);
+                    _entries.Add(entry);
                 }
             }
 
-            Console.WriteLine("Journal loaded. ");
+            Console.WriteLine("Journal loaded successfully. ");
         }
         else
         {
-            Console.WriteLine("File not found.");
+            Console.WriteLine("File does not Exist.");
         }
     }
 }
