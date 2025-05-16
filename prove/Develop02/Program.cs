@@ -10,15 +10,16 @@ class Program
         PromptGenerator promptGenerator = new PromptGenerator();
 
         // to set the loop
-        bool running = true; 
+        bool _Running = true; 
 
-        while (running)
+        while (_Running)
         {
             // The beginning
-            Console.WriteLine($"1. Write new Entry. \n 2. Display. \n 3. Load Entries. \n 4. Save Entries. \n 5. Leave Journal. ");
+            Console.WriteLine($" 1. Write new Entry. \n 2. Display. \n 3. Save Entries. \n 4. Load Entries. \n 5. Leave Journal. ");
             Console.Write("Choose what you would like to do: ");
             string _Choose = Console.ReadLine();
             int _Choice = int.Parse(_Choose);
+            Console.WriteLine("");
 
 
             // Option 1-- Make a new entry
@@ -41,7 +42,7 @@ class Program
                 journal.DisplayEntries();
             }
 
-            // Option 3-- Load Journal
+            // Option 3-- Save Journal
             else if (_Choice == 3)
             {
                 Console.Write("Enter filename to save to: ");
@@ -49,7 +50,7 @@ class Program
                 journal.SaveToFile(saveFile);
             }
 
-            // Option 4-- Save Journal
+            // Option 4-- Load Journal
             else if (_Choice == 4)
             {
                 Console.Write("Enter filename to load: ");
@@ -61,8 +62,10 @@ class Program
             else if (_Choice == 5)
             {
                 Console.WriteLine("See you later. \nCome back soon.");
-                running = false;
+                _Running = false;
             }
+
+            // Correction if wrong input is given
             else
             {
                 Console.WriteLine("Invalid response. Please enter a number between 1-5. ");
