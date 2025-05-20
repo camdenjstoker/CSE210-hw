@@ -10,6 +10,7 @@ public class Journal
     {
         _entries.Add(entry);
     }
+    // Dispolay the Entries
     public void DisplayEntries()
     {
         foreach (Entry entry in _entries)
@@ -17,6 +18,7 @@ public class Journal
             Console.WriteLine(entry);
         }
     }
+    // Saving the Entries
     public void SaveToFile(string filename)
     {
         using (StreamWriter writer = new StreamWriter(filename))
@@ -28,6 +30,7 @@ public class Journal
         }
         Console.WriteLine("Journal saved. ");
     }
+    // Loading the entries
     public void LoadFromFile(string filename)
     {
         if (File.Exists(filename))
@@ -47,6 +50,7 @@ public class Journal
 
             Console.WriteLine("Journal loaded successfully. ");
         }
+        // WHat happens if no file exists already
         else
         {
             Console.WriteLine("File does not Exist.");
