@@ -8,6 +8,7 @@ public class PromptGenerator
 
     public PromptGenerator()
     {
+        // Prompts list
         _prompts = new List<string>()
         {
             "What is one miracle you saw today? ",
@@ -19,6 +20,7 @@ public class PromptGenerator
         _random = new Random();
     }
 
+    // Actual randomizer of prompts
     public string GetRandomPrompt()
     {
         int index = _random.Next(_prompts.Count);
