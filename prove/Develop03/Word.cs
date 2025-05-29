@@ -5,8 +5,9 @@ public class word
 
     private string _text;
 
-    // determines if the words are hidden
+    // set is hidden variable type
     private bool _isHidden;
+
 
     public word(string text)
     {
