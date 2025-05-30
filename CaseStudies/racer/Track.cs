@@ -3,10 +3,10 @@ using System;
 public class Track
 {
     // Array of directions: 'L' = Left, 'R' = Right, 'S' = Straight
-    public char[] directions;
+    private char[] directions;
 
     // Each segment of the track is this many meters long
-    public int segmentLength;
+    private int segmentLength;
 
     public Track(char[] directions, int segmentLength)
     {
@@ -20,7 +20,8 @@ public class Track
         int segmentIndex = (int)(position / segmentLength);
         if (segmentIndex >= directions.Length)
         {
-            return 'F'; // Finished
+            return 'F';
+             // Finished
         }
         return directions[segmentIndex];
     }

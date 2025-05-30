@@ -5,38 +5,38 @@ using System;
 /// </summary>
 public class Vehicle
 {
-    public string name;
-    public string description;
+    private string name;
+    private string description;
 
     /// <summary>
     /// Fuel level in liters (e.g., 0 to 100)
     /// </summary>
-    public double fuelLevel;
+    private double fuelLevel;
 
     /// <summary>
     /// Fuel efficiency in km per liter (e.g., 5 to 25)
     /// </summary>
-    public double fuelEfficiency;
+    private double fuelEfficiency;
 
     /// <summary>
     /// Speed in m/s on straight stretches (e.g., 20 to 100)
     /// </summary>
-    public double speedStraight;
+    private double speedStraight;
 
     /// <summary>
     /// Speed in m/s on corners (left or right) (e.g., 10 to 60)
     /// </summary>
-    public double speedCorner;
+    private double speedCorner;
 
     /// <summary>
     /// Current speed in m/s
     /// </summary>
-    public double currentSpeed;
+    private double currentSpeed;
 
     /// <summary>
     /// Position on the track in meters
     /// </summary>
-    public double position;
+    private double position;
 
     /// <summary>
     /// The track this vehicle is driving on
