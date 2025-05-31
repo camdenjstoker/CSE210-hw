@@ -1,15 +1,9 @@
-using System.Reflection.PortableExecutable;
-
-public class word
+public class Word
 {
-
     private string _text;
-
-    // set is hidden variable type
     private bool _isHidden;
 
-
-    public word(string text)
+    public Word(string text)
     {
         _text = text;
         _isHidden = false;
@@ -27,15 +21,6 @@ public class word
 
     public string GetDisplayText()
     {
-        if (_isHidden)
-        {
-            return "___";
-        }
-        else
-        {
-            return _text;
-        }
+        return _isHidden ? new string('_', _text.Length) : _text;
     }
-
-
 }
