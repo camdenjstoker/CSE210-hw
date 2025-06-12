@@ -15,7 +15,7 @@ public class Activity
     }
     public void StartActivity()
     {
-        Console.WriteLine($"Welcome to the  {_name}.");
+        Console.WriteLine($"Welcome to the {_name}.");
         Console.WriteLine(_description);
         Console.Write("Enter duration in seconds: ");
         _duration = int.Parse(Console.ReadLine());
