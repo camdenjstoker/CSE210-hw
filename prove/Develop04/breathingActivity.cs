@@ -11,10 +11,10 @@ public class BreathingActivity : Activity
 
         while (interval < GetDuration())
         {
-            Console.Write("\nBreathe in...");
+            Console.Write("\nBreathe in...\n");
             DisplayCountdown(4);
 
-            Console.Write("\nNow breathe out...");
+            Console.Write("\nNow breathe out...\n");
             DisplayCountdown(6);
 
             interval += 10; // 4 in + 6 out

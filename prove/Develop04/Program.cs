@@ -12,8 +12,8 @@ class Program
             Console.Clear(); // Clear the console for a fresh menu display
             Console.WriteLine("Menu Options:");
             Console.WriteLine("  1. Start Breathing Activity");
-            Console.WriteLine("  2. Start Reflection Activity (from MindfulnessActivity.cs)"); // Clarifying the file source
-            Console.WriteLine("  3. Start Listing Activity (from ListeningActivity.cs)");     // Clarifying the file source
+            Console.WriteLine("  2. Start Reflection Activity"); 
+            Console.WriteLine("  3. Start Listening Activity");     
             Console.WriteLine("  4. Quit");
             Console.Write("Select a choice from the menu: ");
 
