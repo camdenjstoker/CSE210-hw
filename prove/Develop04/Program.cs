@@ -9,7 +9,9 @@ class Program
          // Main application loop for the menu
         while (true)
         {
-            Console.Clear(); // Clear the console for a fresh menu display
+            Console.Clear();
+            // Extre Item: Cleared the console before displaying the menu each time for a cleaner user experience.
+            // -----------------------------------------------------------------------------------
             Console.WriteLine("Menu Options:");
             Console.WriteLine("  1. Start Breathing Activity");
             Console.WriteLine("  2. Start Reflection Activity"); 
