@@ -9,14 +9,13 @@ class Program
          // Main application loop for the menu
         while (true)
         {
-            Console.Clear();
-            // Extre Item: Cleared the console before displaying the menu each time for a cleaner user experience.
-            // -----------------------------------------------------------------------------------
+            Console.Clear(); 
             Console.WriteLine("Menu Options:");
             Console.WriteLine("  1. Start Breathing Activity");
             Console.WriteLine("  2. Start Reflection Activity"); 
-            Console.WriteLine("  3. Start Listening Activity");     
-            Console.WriteLine("  4. Quit");
+            Console.WriteLine("  3. Start Listening Activity");
+            Console.WriteLine("  4. Start Listing Activity");
+            Console.WriteLine("  5. Quit");
             Console.Write("Select a choice from the menu: ");
 
             string choice = Console.ReadLine(); // Read user's menu choice
@@ -41,6 +40,12 @@ class Program
                 listeningActivity.RunActivity();
             }
             else if (choice == "4")
+            {
+                // Instantiate and run the Listening Activity
+                ListingActivity listingActivity = new ListingActivity();
+                listingActivity.RunActivity();
+            }
+            else if (choice == "5")
             {
                 // Exit the application
                 Console.WriteLine("\nThank you for using the Mindfulness App. Goodbye!");
