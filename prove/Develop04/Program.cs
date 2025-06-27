@@ -6,13 +6,14 @@ class Program
 {
     static void Main(string[] args)
     {
-         // Main application loop for the menu
+
+        // Main application loop for the menu
         while (true)
         {
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine("Menu Options:");
             Console.WriteLine("  1. Start Breathing Activity");
-            Console.WriteLine("  2. Start Reflection Activity"); 
+            Console.WriteLine("  2. Start Reflection Activity");
             Console.WriteLine("  3. Start Listening Activity");
             Console.WriteLine("  4. Start Listing Activity");
             Console.WriteLine("  5. Quit");

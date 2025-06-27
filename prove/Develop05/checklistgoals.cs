@@ -1,6 +1,5 @@
 using System;
 
-// ChecklistGoal inherits from Goal AND implements IDeadlineGoal
 public class ChecklistGoal : Goal, IDeadlineGoal
 {
     private int _amountCompleted;
@@ -77,20 +76,23 @@ public class ChecklistGoal : Goal, IDeadlineGoal
 
     // --- Overrides from Goal class ---
 
-    public override void RecordEvent()
+    // This is the updated method
+    public override int RecordEvent() 
     {
         if (_amountCompleted < _target)
         {
             _amountCompleted++; // Increment the completion count
-            Console.WriteLine($"Congratulations! You have progressed on '{_shortName}'. You earned {_points} points.");
+            Console.WriteLine($"Congratulations! You have progressed on '{_shortName}'. You earned {_points} points."); 
+
+            int pointsEarnedThisEvent = _points; // Points for this single increment
 
             if (_amountCompleted == _target) // Check if the goal is now fully completed
             {
                 _completionDate = DateTime.Now; // Set the full completion date
 
-                int totalBonus = _bonusPoints; // Start with the checklist completion bonus
+                pointsEarnedThisEvent += _bonusPoints; // Add the checklist completion bonus to this event's points
 
-                Console.WriteLine($"You have completed '{_shortName}' {_target} out of {_target} times and earned a bonus of {_bonusPoints} points!");
+                Console.WriteLine($"You have completed '{_shortName}' {_target} out of {_target} times and earned a bonus of {_bonusPoints} points!"); // Keep your message!
 
                 // Check for deadline bonus if applicable
                 if (_dueDate.HasValue)
@@ -98,41 +100,35 @@ public class ChecklistGoal : Goal, IDeadlineGoal
                     bool completedOnTime = _completionDate.Value <= _dueDate.Value;
                     if (completedOnTime)
                     {
-                        totalBonus += _baseDeadlineBonus;
-                        Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!");
+                        pointsEarnedThisEvent += _baseDeadlineBonus; // Add deadline bonus
+                        Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!"); // Keep your message!
 
                         int earlyBonus = CalculateEarlyCompletionBonus();
                         if (earlyBonus > 0)
                         {
-                            totalBonus += earlyBonus;
-                            Console.WriteLine($"And an early completion bonus of {earlyBonus} points!");
+                            pointsEarnedThisEvent += earlyBonus; // Add early completion bonus
+                            Console.WriteLine($"And an early completion bonus of {earlyBonus} points!"); // Keep your message!
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Unfortunately, this checklist goal was completed after its deadline, so no deadline bonus.");
+                        Console.WriteLine("Unfortunately, this checklist goal was completed after its deadline, so no deadline bonus."); // Keep your message!
                     }
                 }
-                // The main program will need to add these total points to the user's score.
             }
+            return pointsEarnedThisEvent; // Return the total points earned from this specific event
         }
         else
         {
-            Console.WriteLine($"You have already completed '{_shortName}' {_target} out of {_target} times. No additional points.");
+            Console.WriteLine($"You have already completed '{_shortName}' {_target} out of {_target} times. No additional points."); // Keep your message!
+            return 0; // Return 0 if already fully complete
         }
     }
 
-    // --- GetPoints() Override (Addressing your point 6) ---
     public override int GetPoints()
     {
-        // This method should return the points earned for the *current* completion,
-        // or the *total bonus* if the goal just finished.
-        // It's a bit ambiguous based on how it's used by a calling program.
-        // Let's make it return the sum of the _points earned *so far* (per increment)
-        // plus the checklist _bonusPoints if the target is reached,
-        // plus any deadline/early bonus if applicable.
-
-        int totalPoints = _amountCompleted * _points; // Points from each increment
+        // This method should return the total points the goal is worth if fully completed,
+        int totalPoints = _amountCompleted * _points; // Points from each increment so far
 
         if (_amountCompleted == _target)
         {
@@ -147,8 +143,6 @@ public class ChecklistGoal : Goal, IDeadlineGoal
         }
         return totalPoints;
     }
-
-    // --- GetStringRepresentation() Override (Addressing your point 4) ---
     public override string GetStringRepresentation()
     {
         string status = (_amountCompleted == _target) ? "[X]" : "[ ]";
