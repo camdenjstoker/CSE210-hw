@@ -1,5 +1,5 @@
 using System;
-
+// This interface is my extra work.
 public interface IDeadlineGoal
 {
     DateTime DueDate { get; } // The target deadline for the goal (nullable)
