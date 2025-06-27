@@ -5,9 +5,9 @@ public class ChecklistGoal : Goal, IDeadlineGoal
     private int _amountCompleted;
     private int _target;
     private int _bonusPoints;
-    private DateTime? _dueDate;         
-    private DateTime? _completionDate;  
-    private int _baseDeadlineBonus;     
+    private DateTime? _dueDate;
+    private DateTime? _completionDate;
+    private int _baseDeadlineBonus;
 
     // Constructor for ChecklistGoal with optional deadline parameters
     public ChecklistGoal(string name, string description, int points, int target, int bonusPoints,
@@ -16,14 +16,14 @@ public class ChecklistGoal : Goal, IDeadlineGoal
     {
         _target = target;
         _bonusPoints = bonusPoints;
-        _amountCompleted = 0; 
+        _amountCompleted = 0;
         _dueDate = dueDate;
         _completionDate = null; // Initially not fully completed
         _baseDeadlineBonus = baseDeadlineBonus;
     }
 
     // --- Explicit Implementation of IDeadlineGoal properties ---
-    DateTime IDeadlineGoal.DueDate => _dueDate ?? DateTime.MinValue; 
+    DateTime IDeadlineGoal.DueDate => _dueDate ?? DateTime.MinValue;
 
     DateTime? IDeadlineGoal.CompletionDate
     {
@@ -77,12 +77,12 @@ public class ChecklistGoal : Goal, IDeadlineGoal
     // --- Overrides from Goal class ---
 
     // This is the updated method
-    public override int RecordEvent() 
+    public override int RecordEvent()
     {
         if (_amountCompleted < _target)
         {
             _amountCompleted++; // Increment the completion count
-            Console.WriteLine($"Congratulations! You have progressed on '{_shortName}'. You earned {_points} points."); 
+            Console.WriteLine($"Congratulations! You have progressed on '{_shortName}'. You earned {_points} points.");
 
             int pointsEarnedThisEvent = _points; // Points for this single increment
 
@@ -184,5 +184,21 @@ public class ChecklistGoal : Goal, IDeadlineGoal
         }
 
         return $"{status} {_shortName} ({_description}) -- Currently completed: {_amountCompleted}/{_target} (Bonus: {_bonusPoints} points){deadlineInfo}";
+    }
+    // Method to get string for saving
+    public override string GetSaveString()
+    {
+        // Format: ChecklistGoal:name,description,points,amountCompleted,target,bonusPoints,dueDateString,completionDateString,baseDeadlineBonus
+        
+        string dueDateStr = _dueDate.HasValue ? _dueDate.Value.ToString("yyyy-MM-dd") : "null";
+        string completionDateStr = _completionDate.HasValue ? _completionDate.Value.ToString("yyyy-MM-dd") : "null";
+
+        return $"ChecklistGoal:{_shortName},{_description},{_points},{_amountCompleted},{_target},{_bonusPoints},{dueDateStr},{completionDateStr},{_baseDeadlineBonus}";
+    }
+
+    // New method for loading to correctly set amount completed
+    public void SetAmountCompleted(int value)
+    {
+        _amountCompleted = value;
     }
 }

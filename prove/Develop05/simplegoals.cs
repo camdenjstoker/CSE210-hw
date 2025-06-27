@@ -16,7 +16,7 @@ public class SimpleGoal : Goal, IDeadlineGoal
     }
 
     // This is the updated method
-    public override int RecordEvent() 
+    public override int RecordEvent()
     {
         if (!_isComplete)
         {
@@ -103,8 +103,19 @@ public class SimpleGoal : Goal, IDeadlineGoal
         return $"{status} {_shortName} ({_description}){deadlineInfo}";
     }
 
+    public override string GetSaveString()
+    {
+        // The format for saving needs to include all properties, including deadline info
+        // Format: SimpleGoal:name,description,points,isComplete,dueDateString,completionDateString,baseDeadlineBonus
+        
+        string dueDateStr = _dueDate.HasValue ? _dueDate.Value.ToString("yyyy-MM-dd") : "null";
+        string completionDateStr = _completionDate.HasValue ? _completionDate.Value.ToString("yyyy-MM-dd") : "null";
+
+        return $"SimpleGoal:{_shortName},{_description},{_points},{_isComplete},{dueDateStr},{completionDateStr},{_baseDeadlineBonus}";
+    }
+
     // --- Explicit Implementation of IDeadlineGoal properties ---
-    DateTime IDeadlineGoal.DueDate => _dueDate ?? DateTime.MinValue; 
+    DateTime IDeadlineGoal.DueDate => _dueDate ?? DateTime.MinValue;
 
     DateTime? IDeadlineGoal.CompletionDate
     {
@@ -154,4 +165,6 @@ public class SimpleGoal : Goal, IDeadlineGoal
         TimeSpan timeDifference = _dueDate.Value - DateTime.Now;
         return (int)Math.Ceiling(timeDifference.TotalDays);
     }
+    
+
 }

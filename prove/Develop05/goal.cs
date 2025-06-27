@@ -13,6 +13,7 @@ public abstract class Goal
         _points = points;
     }
 
+    public abstract string GetSaveString();
     public abstract int RecordEvent();
 
     public virtual int GetPoints()

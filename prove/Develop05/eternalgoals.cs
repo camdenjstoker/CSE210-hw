@@ -7,7 +7,7 @@ public class EternalGoal : Goal
         // No specific state like completion for EternalGoal in constructor
     }
 
-    public override int RecordEvent() 
+    public override int RecordEvent()
     {
         Console.WriteLine($"Congratulations! You have recorded progress on '{_shortName}' and earned {_points} points!"); // Keep your message!
 
@@ -23,5 +23,11 @@ public class EternalGoal : Goal
     {
         // Always display as ongoing.
         return $"[ ] {_shortName} ({_description})"; // No completion status, always [ ]
+    }
+    
+    public override string GetSaveString()
+    {
+        // Format for saving: EternalGoal:name,description,points
+        return $"EternalGoal:{_shortName},{_description},{_points}";
     }
 }

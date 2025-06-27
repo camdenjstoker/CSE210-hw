@@ -143,8 +143,7 @@ public class GoalManager
 
             foreach (Goal goal in _goals)
             {
-                // This will use the new GetStringRepresentation for saving
-                outputFile.WriteLine($"{goal.GetType().Name}:{goal.GetStringRepresentation()}");
+                outputFile.WriteLine(goal.GetSaveString()); 
             }
         }
         Console.WriteLine($"Goals saved to {filename} successfully!");
@@ -152,7 +151,7 @@ public class GoalManager
 
     public void LoadGoals()
     {
-        Console.Write("What is the filename of the goal file? ");
+        Console.Write("What is the filename for the goal file? ");
         string filename = Console.ReadLine();
 
         if (File.Exists(filename))
@@ -160,41 +159,99 @@ public class GoalManager
             _goals.Clear(); // Clear existing goals before loading
             string[] lines = File.ReadAllLines(filename);
 
-            _score = int.Parse(lines[0]); // Load the score from the first line
+            _score = int.Parse(lines[0]); // First line is always the score
 
             for (int i = 1; i < lines.Length; i++)
             {
-                string[] parts = lines[i].Split(':');
+                string line = lines[i];
+                string[] parts = line.Split(':');
                 string goalType = parts[0];
-                string goalData = parts[1];
+                string[] dataParts = parts[1].Split(','); // Split the data part by comma
 
-                string[] dataParts = goalData.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                string name = dataParts[0];
+                string description = dataParts[1];
+                int points = int.Parse(dataParts[2]);
+
+                DateTime? dueDate = null;
+                DateTime tempDueDate;
+                // Check if dueDate string exists and can be parsed
+                if (dataParts.Length > 4 && DateTime.TryParse(dataParts[4], out tempDueDate)) // dueDateString is at index 4 for Simple/Checklist, 3 for Eternal
+                {
+                    dueDate = tempDueDate;
+                }
+                // Handle "null" string for dates
+                else if (dataParts.Length > 4 && dataParts[4].ToLower() == "null")
+                {
+                    dueDate = null;
+                }
+
+                DateTime? completionDate = null;
+                DateTime tempCompletionDate;
+                // Check if completionDate string exists and can be parsed
+                if (dataParts.Length > 5 && DateTime.TryParse(dataParts[5], out tempCompletionDate)) // completionDateString is at index 5 for Simple/Checklist
+                {
+                    completionDate = tempCompletionDate;
+                }
+                // Handle "null" string for dates
+                else if (dataParts.Length > 5 && dataParts[5].ToLower() == "null")
+                {
+                    completionDate = null;
+                }
+
+
+                int baseDeadlineBonus = 0;
+                if (dataParts.Length > 6) // baseDeadlineBonus is at index 6 for Simple/Checklist
+                {
+                    baseDeadlineBonus = int.Parse(dataParts[6]);
+                }
+
 
                 switch (goalType)
                 {
                     case "SimpleGoal":
-                        string name = dataParts[0].Substring(dataParts[0].IndexOf(' ') + 1); 
-                        string description = dataParts[1].Substring(0, dataParts[1].Length - 1); 
-                        int points = int.Parse(dataParts[2]);
-                        _goals.Add(new SimpleGoal(name, description, points));
+                        bool isComplete = bool.Parse(dataParts[3]); // isComplete is at index 3
+                        SimpleGoal loadedSimpleGoal = new SimpleGoal(name, description, points, dueDate, baseDeadlineBonus);
+                        
+                        // Set completion status and completion date
+                        if (isComplete)
+                        {
+                            // A simple call to RecordEvent() would mark complete and set completion date to NOW,
+                            // which is wrong for loading. We need to set it directly.
+                            // The IDeadlineGoal.CompletionDate property has a setter, so we can use that.
+                            loadedSimpleGoal.RecordEvent(); // Marks as complete and sets date to NOW
+                            if (completionDate.HasValue)
+                            {
+                                // Overwrite the DateTime.Now set by RecordEvent with the loaded date
+                                ((IDeadlineGoal)loadedSimpleGoal).CompletionDate = completionDate.Value;
+                            }
+                        }
+                        _goals.Add(loadedSimpleGoal);
                         break;
+
                     case "EternalGoal":
-                        name = dataParts[0].Substring(dataParts[0].IndexOf(' ') + 1);
-                        description = dataParts[1].Substring(0, dataParts[1].Length - 1);
-                        points = int.Parse(dataParts[2]);
+                        // Eternal goals don't have additional state to load beyond constructor
                         _goals.Add(new EternalGoal(name, description, points));
                         break;
+
                     case "ChecklistGoal":
-                        name = dataParts[0].Substring(dataParts[0].IndexOf(' ') + 1);
-                        description = dataParts[1].Substring(0, dataParts[1].Length - 1);
-                        points = int.Parse(dataParts[2]);
-                        int amountCompleted = int.Parse(dataParts[3].Split('/')[0]);
-                        int target = int.Parse(dataParts[3].Split('/')[1].Split(' ')[0]); 
-                        int bonus = int.Parse(dataParts[4]); 
-                        ChecklistGoal loadedChecklistGoal = new ChecklistGoal(name, description, points, target, bonus);
-                        // Manually set amountCompleted for loaded goal
+                        int amountCompleted = int.Parse(dataParts[3]); // amountCompleted is at index 3
+                        int target = int.Parse(dataParts[4]); // target is at index 4
+                        int bonus = int.Parse(dataParts[5]); // bonus is at index 5
+                        
+                        ChecklistGoal loadedChecklistGoal = new ChecklistGoal(name, description, points, target, bonus, dueDate, baseDeadlineBonus);
+                        
+                        // Manually set amountCompleted for loaded goal using the new setter
+                        loadedChecklistGoal.SetAmountCompleted(amountCompleted); 
+
+                        // Set completion date if available for ChecklistGoal (only if target reached)
+                        if (completionDate.HasValue && amountCompleted == target)
+                        {
+                            ((IDeadlineGoal)loadedChecklistGoal).CompletionDate = completionDate.Value;
+                        }
+
                         _goals.Add(loadedChecklistGoal);
                         break;
+
                     default:
                         Console.WriteLine($"Unknown goal type: {goalType}");
                         break;
