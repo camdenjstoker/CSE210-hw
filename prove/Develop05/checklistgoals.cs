@@ -92,7 +92,7 @@ public class ChecklistGoal : Goal, IDeadlineGoal
 
                 pointsEarnedThisEvent += _bonusPoints; // Add the checklist completion bonus to this event's points
 
-                Console.WriteLine($"You have completed '{_shortName}' {_target} out of {_target} times and earned a bonus of {_bonusPoints} points!"); // Keep your message!
+                Console.WriteLine($"You have completed '{_shortName}' {_target} out of {_target} times and earned a bonus of {_bonusPoints} points!");
 
                 // Check for deadline bonus if applicable
                 if (_dueDate.HasValue)
@@ -101,18 +101,18 @@ public class ChecklistGoal : Goal, IDeadlineGoal
                     if (completedOnTime)
                     {
                         pointsEarnedThisEvent += _baseDeadlineBonus; // Add deadline bonus
-                        Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!"); // Keep your message!
+                        Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!");
 
                         int earlyBonus = CalculateEarlyCompletionBonus();
                         if (earlyBonus > 0)
                         {
                             pointsEarnedThisEvent += earlyBonus; // Add early completion bonus
-                            Console.WriteLine($"And an early completion bonus of {earlyBonus} points!"); // Keep your message!
+                            Console.WriteLine($"And an early completion bonus of {earlyBonus} points!"); 
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Unfortunately, this checklist goal was completed after its deadline, so no deadline bonus."); // Keep your message!
+                        Console.WriteLine("Unfortunately, this checklist goal was completed after its deadline, so no deadline bonus."); 
                     }
                 }
             }
@@ -120,7 +120,7 @@ public class ChecklistGoal : Goal, IDeadlineGoal
         }
         else
         {
-            Console.WriteLine($"You have already completed '{_shortName}' {_target} out of {_target} times. No additional points."); // Keep your message!
+            Console.WriteLine($"You have already completed '{_shortName}' {_target} out of {_target} times. No additional points.");
             return 0; // Return 0 if already fully complete
         }
     }

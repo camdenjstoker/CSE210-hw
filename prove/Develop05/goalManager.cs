@@ -215,9 +215,7 @@ public class GoalManager
                         // Set completion status and completion date
                         if (isComplete)
                         {
-                            // A simple call to RecordEvent() would mark complete and set completion date to NOW,
-                            // which is wrong for loading. We need to set it directly.
-                            // The IDeadlineGoal.CompletionDate property has a setter, so we can use that.
+
                             loadedSimpleGoal.RecordEvent(); // Marks as complete and sets date to NOW
                             if (completionDate.HasValue)
                             {

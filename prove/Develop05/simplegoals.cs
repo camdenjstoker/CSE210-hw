@@ -25,7 +25,7 @@ public class SimpleGoal : Goal, IDeadlineGoal
 
             int pointsEarned = _points; // Start with the base points for completing this goal
 
-            Console.WriteLine($"Congratulations! You have completed '{_shortName}' and earned {_points} points!"); // Keep your message!
+            Console.WriteLine($"Congratulations! You have completed '{_shortName}' and earned {_points} points!"); 
 
             // Check for deadline bonus if applicable
             if (_dueDate.HasValue) // Only apply if a deadline was set
@@ -35,31 +35,29 @@ public class SimpleGoal : Goal, IDeadlineGoal
                 if (completedOnTime)
                 {
                     pointsEarned += _baseDeadlineBonus; // Add the base deadline bonus
-                    Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!"); // Keep your message!
+                    Console.WriteLine($"You also earned a deadline bonus of {_baseDeadlineBonus} points!");
 
                     int earlyBonus = CalculateEarlyCompletionBonus(); // Calculate early bonus
                     if (earlyBonus > 0)
                     {
                         pointsEarned += earlyBonus; // Add the early completion bonus
-                        Console.WriteLine($"And an early completion bonus of {earlyBonus} points!"); // Keep your message!
+                        Console.WriteLine($"And an early completion bonus of {earlyBonus} points!"); 
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Unfortunately, this goal was completed after its deadline, so no deadline bonus."); // Keep your message!
+                    Console.WriteLine("Unfortunately, this goal was completed after its deadline, so no deadline bonus."); 
                 }
             }
             return pointsEarned; // Return the total points earned from this specific event
         }
         else
         {
-            Console.WriteLine($"You have already completed '{_shortName}'. No additional Points awarded."); // Keep your message!
+            Console.WriteLine($"You have already completed '{_shortName}'. No additional Points awarded.");
             return 0; // Return 0 points if already complete and no new points are awarded
         }
     }
 
-    // The rest of your SimpleGoal class methods (GetStringRepresentation, IDeadlineGoal implementations)
-    // remain as they were, or as we previously discussed.
 
     public override string GetStringRepresentation()
     {
@@ -128,7 +126,7 @@ public class SimpleGoal : Goal, IDeadlineGoal
     // --- Implementation of IDeadlineGoal methods ---
     public int CalculateEarlyCompletionBonus()
     {
-        // We calculate this bonus only if the goal is fully completed AND has a deadline.
+        // calculate this bonus only if the goal is fully completed AND has a deadline.
         if (_dueDate == null || _completionDate == null)
         {
             return 0; // No deadline, not fully complete, or completion date not set
