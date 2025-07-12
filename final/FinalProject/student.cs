@@ -13,6 +13,6 @@ public class Student : User
     }
     public override void DisplayDashBoard()
     {
-        Console.WriteLine($"Welcome, {name} to the student dashboard.");
+        Console.WriteLine($"Welcome, {_name} to the student dashboard.");
     }
 }

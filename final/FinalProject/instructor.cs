@@ -1,4 +1,4 @@
-
+ 
 public class Instructor : User
 {
     public Instructor(string name, string id, string passwordHash) : base(name, id, passwordHash)
@@ -12,7 +12,7 @@ public class Instructor : User
     }
     public override void DisplayDashBoard()
     {
-        Console.WriteLine($"Welcome, {name} to the Instructor dashboard.");
+        Console.WriteLine($"Welcome, {_name} to the Instructor dashboard.");
     }
 }
-}
+ 
