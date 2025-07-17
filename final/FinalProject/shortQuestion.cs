@@ -1,7 +1,11 @@
-
 public class ShortQuestion : Question
 {
     public ShortQuestion(string text, int points, string correctAnswer) : base(text, points, correctAnswer)
+    {
+
+    }
+
+    public ShortQuestion(string text, int points, string correctAnswer, System.DateTime dateMade, System.DateTime dateLastEdited) : base(text, points, correctAnswer, dateMade, dateLastEdited)
     {
 
     }
@@ -14,6 +18,6 @@ public class ShortQuestion : Question
 
     public override bool Grade(string userAnswer)
     {
-        return userAnswer.Trim().Equals(GetCorrectAnswer().Trim(), StringComparison.OrdinalIgnoreCase);
+        return userAnswer.Trim().Equals(GetCorrectAnswer().Trim(), System.StringComparison.OrdinalIgnoreCase);
     }
 }

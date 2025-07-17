@@ -10,8 +10,17 @@ public class MultipleQuestion : Question
         _choices = new List<string> (choices);
     }
 
+    public MultipleQuestion(string text, int points, string correctAnswer, List<string> choices, DateTime dateMade, DateTime dateLastEdited) : base(text, points, correctAnswer, dateMade, dateLastEdited)
+    {
+        _choices = new List<string> (choices);
+    }
+
     public List<string> GetChoices() => new List<string>(_choices);
-    public void SetChoices(List<string> choices) => _choices = new List<string>(choices);
+    public void SetChoices(List<string> choices)
+    {
+        _choices = new List<string>(choices);
+        SetDateLastEdited(DateTime.Now);
+    }
 
     public override void Ask()
     {

@@ -8,7 +8,7 @@ public class Quiz : Test
 
     public Quiz(string title, List<Question> questions, int maxAttempts) : base(title, questions)
     {
-        if (_maxAttempts < 1)
+        if (maxAttempts < 1)
         {
             Console.WriteLine("Max attepts must be set to at least 1 attempt. Setting to 1 attempt now.");
             _maxAttempts = 1;
@@ -37,37 +37,39 @@ public class Quiz : Test
         }
     }
 
+
     public override int ConductTest()
     {
-        int score = 0;
-        int currentAttempt = 0;
+    int score = 0;
+    int currentAttempt = 1;
 
-        Console.WriteLine($"\n ---- Starting {_title} ---- Attept {currentAttempt}/{_maxAttempts} ---- ");
+    Console.WriteLine($"\n--- Starting Quiz: {GetTitle()} (Attempt {currentAttempt}/{_maxAttempts}) ---");
 
-        foreach (var question in _questions)
+    foreach (var question in _questions)
+    {
+        question.Ask();
+        string userAnswer = Console.ReadLine();
+
+        if (question.Grade(userAnswer))
         {
-            question.Ask();
-            string userAnswer = Console.ReadLine();
-
-            if (question.Grade(userAnswer))
-            {
-                Console.WriteLine("Correct! Well done! 🎉");
-                score += question.GetPoints();
-            }
-            else
-            {
-                Console.WriteLine($"Incorrect. The correct answer was: {question.GetCorrectAnswer()}");
-            }
-            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("Correct! Well done!");
+            score += question.GetPoints();
         }
+        else
+        {
+            Console.WriteLine($"Incorrect. The correct answer was: {question.GetCorrectAnswer()} ");
+        }
+        Console.WriteLine("-----------------------------------");
+    }
 
-        Console.WriteLine($"--- Quiz Finished: {GetTitle()} ---");
-        Console.WriteLine($"You scored {score} out of {GetTotalPossiblePoints()} points.");
-        return score;
+    Console.WriteLine($"--- Quiz Finished: {GetTitle()} ---");
+    Console.WriteLine($"You scored {score} out of {GetTotalPossiblePoints()} points.");
+    _lastAttemptScore = score;
+    return score; 
     }
 
     public override int CalculateGrade()
     {
-        throw new NotImplementedException();
+        return _lastAttemptScore;
     }
 }
